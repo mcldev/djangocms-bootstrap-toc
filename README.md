@@ -1,2 +1,3 @@
-# djangocms-bootstrap-toc
-Adds the Bootstrap JS Plugin Table of Contents
+# DjangoCMS Bootstrap Table of Contents
+
+Based on the plugin: https://afeld.github.io/bootstrap-toc/

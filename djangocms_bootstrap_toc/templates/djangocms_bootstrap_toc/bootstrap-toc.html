@@ -1,0 +1,75 @@
+{% load cms_tags sekizai_tags static i18n %}
+
+{# From Version 0.4.1 #}
+{# https://afeld.github.io/bootstrap-toc/ #}
+{# https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.css #}
+{# https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.js #}
+{% addtoblock "css" %}<link rel="stylesheet" href="{% static 'djangocms-bootstrap-toc/css/bootstrap-toc.min.css' %}">{% endaddtoblock %}
+{% addtoblock "js" %}<script src="{% static 'djangocms-bootstrap-toc/js/bootstrap-toc.min.js' %}"></script>{% endaddtoblock %}
+
+{# Add to body class/attributes #}
+{#  NB: need to set <body... {% render_block "body_attributes" %}> in the main/base template of your app #}
+{% addtoblock "body_class" %} bootstrap-side-menu-body{% endaddtoblock %}
+{% addtoblock "body_attributes" %} data-spy="scroll" data-target="#id_{{ instance.id }}"{% endaddtoblock %}
+
+{# This is the nav div that will get populated with the H1, H2 from the current page #}
+<nav id="id_{{ instance.id }}" data-spy="affix" class="hidden-xs"></nav>
+
+{% addtoblock "css" %}
+    <style>
+        nav[data-toggle='toc'] {
+            margin-top: 50px;
+        }
+        nav[data-toggle='toc'] .nav>li>a{
+            padding: 4px 5px 4px 20px;
+        }
+        /* Set main offset and top when scrolling i.e. with .affix class */
+        nav[data-toggle='toc'].affix {
+            {#margin-top: 30px;#}
+            top: 50px;
+            max-width: 16.6667%;
+            {#padding: 4px 20px;#}
+        }
+
+        /* Remove the 'You are here' line */
+        nav[data-toggle='toc'] .nav>li>a[href="#you-are-here"] {
+            display: None;
+        }
+
+        /* HIDDEN on small screens */
+        @media (max-width: 768px) {
+            /* override the Affix plugin so that the navigation isn't sticky */
+            nav.affix[data-toggle='toc'] {
+                position: static;
+            }
+
+            /* the second-level navigation to be shown (as seen on this page on mobile), use this */
+            nav[data-toggle='toc'] .nav .nav {
+                display: block;
+            }
+        }
+    </style>
+{% endaddtoblock %}
+
+{# This is the Javascript to set the affix settings for the menu #}
+{% addtoblock "js" %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var navSelector = '#id_{{ instance.id }}';
+            var $myNav = $(navSelector);
+            Toc.init({
+                $nav: $myNav,
+                {% if scope %}$scope: $("{{ scope }}"),{% endif %}
+            });
+            $("body").scrollspy({
+                target: navSelector
+            });
+            $myNav.affix({
+                offset: {
+                    top: $myNav.offset().top - 50
+                }
+            });
+        });
+
+    </script>
+{% endaddtoblock %}
