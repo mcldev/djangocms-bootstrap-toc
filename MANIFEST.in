@@ -1,0 +1,4 @@
+recursive-include djangocms_bootstrap_toc/templates *
+recursive-include djangocms_bootstrap_toc/static *
+recursive-include djangocms_bootstrap_toc/migrations *
+
