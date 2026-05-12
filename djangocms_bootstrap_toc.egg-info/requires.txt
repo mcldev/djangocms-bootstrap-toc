@@ -1,3 +1,0 @@
-django<5.0,>=4.2
-django-cms<3.12,>=3.11
-django-sekizai>=4.0.0
